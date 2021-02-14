@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <style>
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .hide-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+        }
+    </style>
+
+    <div class="mt-4">
+        Voici l'url à communiquer pour visualiser votre contenu (Ne l'ouvrez pas vous même ou il disparaitra)<br>
+        <div class="row">
+            <div class="col-11">
+                <div class="alert alert-info hide-scrollbar" style="overflow: auto"><span id="url">{{ url }}</span></div>
+            </div>
+            <div class="col-1">
+                <button onclick="copyUrl()" class="btn btn-outline-secondary" title="copier"><span
+                            class="fa fa-copy"></span></button>
+            </div>
+        </div>
+
+
+    </div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        function copyUrl() {
+            var $temp = $("<input>");
+            $("body").append($temp);
+            $temp.val($("#url").html()).select();
+            document.execCommand("copy");
+            $temp.remove();
+        }
+    </script>
+
+{% endblock %}

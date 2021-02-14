@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <div class="row mt-4">
+
+        <div class="std-font col-6 offset-3">
+
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+
+            <button type="submit" class="btn btn-primary float-right">Enregistrer</button>
+            {{ form_end(form) }}
+        </div>
+
+    </div>
+
+{% endblock %}

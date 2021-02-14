@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="mt-4" id="file">
+        Cliquez sur le lien pur obtenir votre fichier <br>
+        <a id="link" href="{{ path('main_download_file', {'key': key}) }}">le fichier</a>
+    </div>
+
+
+    <div class="mt-4 alert alert-warning" id="file-deleted" style="display: none">
+        Le fichier est maintenant détruit
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $("#link").click(function(){
+            $("#file").hide()
+            $("#file-deleted").show()
+        });
+    </script>
+{% endblock %}
+

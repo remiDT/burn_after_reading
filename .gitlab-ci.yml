@@ -1,0 +1,19 @@
+stages:
+  - build
+
+variables:
+  CONTAINER_IMAGE: "${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_NAME}"
+
+build:
+  stage: build
+  except:
+    - tags
+  tags:
+    - docker-build
+  script:
+    - repoName=${CONTAINER_IMAGE}
+    - docker login -u "gitlab-ci-token" -p "$CI_JOB_TOKEN" $CI_REGISTRY
+    - docker build --pull -t $repoName .
+    - docker tag $repoName $repoName
+    - docker login -u "gitlab-ci-token" -p "$CI_JOB_TOKEN" $CI_REGISTRY
+    - docker push $repoName

@@ -1,0 +1,42 @@
+version: '3.4'
+
+services:
+
+  fpm-bar:
+    image: IMAGE_REPO
+    env_file:
+      - .env.docker
+    command: ["/var/www/bar/docker-ressources/initApp.sh"]
+    volumes:
+      - data-public:/var/www/bar/public
+
+
+  nginx-bar:
+    container_name: nginx-lsmessage
+    image: nginx:1.17
+    depends_on:
+      - fpm-bar
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./docker-ressources/nginx.vhost:/etc/nginx/conf.d/default.conf
+      - ./docker-ressources/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker-ressources/options-ssl-nginx.conf:/etc/letsencrypt/options-ssl-nginx.conf
+      - /data/certbot/conf:/etc/letsencrypt
+      - /data/certbot/www:/var/www/certbot
+      - data-public:/var/www/bar/public:ro
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - /data/certbot/conf:/etc/letsencrypt
+      - /data/certbot/www:/var/www/certbot
+
+  redis-bar:
+    container_name: redis-bar
+    image: redis
+
+volumes:
+  data-public:
+
